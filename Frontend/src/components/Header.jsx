@@ -12,7 +12,7 @@ const Header = () => {
             <img className='w-18' src={assets.ai_icon} alt="" />
             <p>Experience fast, accurate, and personalized medical advice <br className='hidden sm:block' /> from our AI doctor. Get instant health assessments and <br className='hidden sm:block' /> tailored recommendations anytime, anywhere.</p>
         </div>
-        <NavLink to='/ai_consultation'><a className='flex items-center gap-2 bg-white px-8 py-3 rounded-full text-gray-600 text-sm m-auto md:m-0 hover:scale-105  transition-all duration-300' href="">
+        <NavLink onClick={()=>scrollTo(0,0)} to='/ai_consultation'><a className='flex items-center gap-2 bg-white px-8 py-3 rounded-full text-gray-600 text-sm m-auto md:m-0 hover:scale-105  transition-all duration-300' href="">
         Get Instant AI Advice  <img className='w-3' src={assets.arrow_icon} alt="" />
         </a></NavLink>
 

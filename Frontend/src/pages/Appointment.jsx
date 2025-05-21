@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { currency_symbol,assets, doctors } from '../assets/assets'
+import { assets } from '../assets/assets'
 import RelatedDoctors from '../components/RelatedDoctors'
+import { AppContext } from '../context/AppContext'
 
 
 
 function Appointment() {
+
+  const {doctors,currencySymbol} =useContext(AppContext)
+
+
 
   const daysOfWeek = ['SUN','MON','TUE','WED','THU','FRI','SAT']
 
@@ -112,7 +117,7 @@ function Appointment() {
             <p className='text-sm text-gray-500 max-w-[700px] mt-1' >{docInfo.about}</p>
           </div>
 
-          <p className='text-gray-500 font-medium mt-4'>Appointment fee: <span className='text-gray-600'>{currency_symbol}{docInfo.fees}</span></p>
+          <p className='text-gray-500 font-medium mt-4'>Appointment fee: <span className='text-gray-600'>{currencySymbol}{docInfo.fees}</span></p>
 
 
 
