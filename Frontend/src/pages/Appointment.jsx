@@ -105,6 +105,7 @@ function Appointment() {
     }
 
     try {
+      const toastId1 = toast.loading("Booking Appointment, Please wait...");
       const date = docSlots[slotIndex][0].dateTime
 
       let day = date.getDate()
@@ -115,15 +116,18 @@ function Appointment() {
       
       const {data} = await axios.post(backendUrl + '/api/user/book-appointment',{docId,slotDate,slotTime},{headers:{token}})
       if (data.success) {
+        toast.dismiss(toastId1)
         toast.success(data.message)
         getDoctorsData()
         navigate('/my-appointments')
       }
       else{
+        toast.dismiss(toastId1)
         toast.error(data.message)
       }
       
     } catch (error) {
+      toast.dismiss(toastId1)
       console.log(error);
       toast.error(error.message)
       
