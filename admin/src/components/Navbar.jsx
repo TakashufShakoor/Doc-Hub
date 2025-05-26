@@ -23,7 +23,7 @@ const Navbar = () => {
         <p className='border px-2.5 py-0.5 rounded-full border-gray-300  text-gray-500'>{atoken ? 'Admin Panel' : 'Doctor Panel'}</p>
       </div>
 
-      <button onClick={Logout} className='bg-primary text-white text-sm px-10 py-2 rounded-full'>Logout</button>
+      <button onClick={Logout} className='bg-red-500 hover:bg-red-400 text-white text-sm px-10 py-2 rounded-full cursor-pointer'>Logout</button>
 
 
     </div>

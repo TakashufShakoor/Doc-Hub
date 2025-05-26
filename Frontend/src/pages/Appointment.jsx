@@ -37,7 +37,7 @@ function Appointment() {
     let today = new Date()
     
 
-    for(let i=0;i<7;i++){
+    for(let i=0;i<10;i++){
       // getting date with help of index
 
       let currentDate = new Date(today)
