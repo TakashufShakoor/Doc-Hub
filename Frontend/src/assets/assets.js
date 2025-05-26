@@ -42,6 +42,7 @@ import General_physician from './General_physician.svg'
 import Gynecologist from './Gynecologist.svg'
 import Neurologist from './Neurologist.svg'
 import Pediatricians from './Pediatricians.svg'
+import paid from './paid.png'
 
 
 export const assets = {
@@ -52,6 +53,7 @@ export const assets = {
     logo,
     location_logo,
     ai_icon,
+    paid,
     chats_icon,
     verified_icon,
     info_icon,

@@ -5,6 +5,7 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import {loadStripe} from '@stripe/stripe-js';
 
 
 const MyAppointments = () => {
@@ -42,7 +43,9 @@ const MyAppointments = () => {
 
 
   const cancelAppointment = async(appointmentId) =>{
-    try {
+    let confirmCancellation = confirm("❌ Are you sure you want to cancel this appointment?")
+    if (confirmCancellation) {
+      try {
       const toastId1 = toast.loading("Cancelling , Please wait...");
 
       const{data} = await axios.post(backendUrl + '/api/user/cancel-appointment',{appointmentId},{headers:{token}})
@@ -66,8 +69,87 @@ const MyAppointments = () => {
       console.log(error);
       toast.error(error.message)
     }
+    }
   }
 
+
+  const makePayment = async(appointmentId)=> {
+    try {
+      toast.loading('Redirecting to Payment Page')
+
+      const stripe = await loadStripe('pk_test_51RSctYQ11KdDBfvGqnmmC8pYIIlQHrNZRxYxyUQXID8vb45ve1gZDgL8RwLLZJixu7oQR1lMzUPcUY53RwstgV5400wO4ARSJA');
+
+      const {data} = await axios.post(backendUrl + '/api/user/payment',{appointmentId},{headers:{token}})
+      
+      const result = stripe.redirectToCheckout({
+        sessionId : data.id
+      });
+
+
+      if(result.error){
+
+        console.log(error.message);
+        
+      }
+      
+
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message)
+    }
+  }
+
+
+
+  
+
+  useEffect(() => {
+  const params = new URLSearchParams(window.location.search);
+  const appointmentID = params.get("appointment_Id");
+
+  const verifyPayment = async () => {
+    try {
+      if (appointmentID) {
+        const { data } = await axios.post(
+          backendUrl + '/api/user/verify-payment',
+          { appointmentID },
+          { headers: { token } }
+        );
+
+        if (data.success) {
+          toast.success(data.message);
+          getUserAppointments();
+
+          // Optional: Remove query param after showing toast
+          window.history.replaceState({}, document.title, '/my-appointments');
+        }
+
+        
+    if (params.get('cancelled') === 'true') {
+      toast.error('Payment Failed.');
+      
+      // Optional: remove query param after showing toast
+      window.history.replaceState({}, document.title, '/my-appointments');
+    }
+
+      }
+    } 
+    
+    catch (error) {
+      toast.error("Payment verification failed");
+      console.error("Verify Payment Error:", error);
+    }
+  };
+
+  verifyPayment();
+}, []);
+    
+
+
+
+  
+  
+  
 
   
 
@@ -104,9 +186,10 @@ const MyAppointments = () => {
             <div></div>
             
             <div className='flex flex-col gap-2 justify-end'>
-             {!item.cancelled && <button className='text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded hover:bg-primary hover:text-white transition-all duration-300'>Pay Online</button> }
-             {!item.cancelled && <button onClick={()=>cancelAppointment(item._id)} className='text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded hover:bg-red-600 hover:text-white transition-all duration-300'>Cancel appointment</button>} 
-             {item.cancelled && <button className='sm:min-w-48 py-2 border border-red-500 rounded text-red-500'>Appointment Cancelled</button>}
+             {!item.cancelled && item.payment && <button className='sm:min-w-48 py-2 border rounded text-gray-600  bg-[#C0E3FF]'>✔ Paid</button>}
+             {!item.cancelled && !item.payment && <button onClick={()=>makePayment(item._id)}  className='text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded hover:bg-primary hover:text-white transition-all duration-300'>Pay Online</button> }
+             {!item.cancelled && <button onClick={()=>cancelAppointment(item._id)} className='text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded hover:bg-red-600 hover:text-white transition-all duration-300'>Cancel appointment </button>} 
+             {item.cancelled && <button className='sm:min-w-48 py-2 border border-red-500 rounded text-red-500'>Appointment Cancelled ✘</button>}
             </div>
           </div>
 

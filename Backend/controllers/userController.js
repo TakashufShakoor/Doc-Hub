@@ -5,6 +5,11 @@ import jwt from 'jsonwebtoken'
 import {v2 as cloudinary} from 'cloudinary'
 import doctorModel from '../models/doctorModel.js'
 import appointmentModel from '../models/appointmentModel.js'
+import stripe from '../config/stripe.js'
+
+
+
+
 
 // API to register user
 
@@ -270,6 +275,74 @@ const cancelAppointment = async (req,res)=>{
     }
 }
 
+//-----------------------------------------------Payment Gateway -------------------------------------------------------------------------
 
 
-export {registerUser,loginUser,getProfile,updateProfile,bookAppointment,listAppointment,cancelAppointment}
+const stripePayment = async (req, res) => {
+  try {
+    const { userId, appointmentId } = req.body;
+
+    const appointmentData = await appointmentModel.findById(appointmentId);
+    if (!appointmentData) {
+      return res.json({ success: false, message: 'Appointment not found' });
+    }
+
+    const lineItems = [
+      {
+        price_data: {
+          currency: 'pkr',
+          product_data: {
+            name: `${appointmentData.docData.name} (${appointmentData.docData.speciality})`,
+            description: `Appointment on ${appointmentData.slotDate} at ${appointmentData.slotTime}`,
+            images: [appointmentData.docData.image], // Stripe expects an array of image URLs
+          },
+          unit_amount: appointmentData.docData.fees * 100, // in smallest currency unit
+        },
+        quantity: 1,
+      }
+    ];
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: lineItems,
+      mode: 'payment',
+      success_url: `http://localhost:5173/my-appointments?appointment_Id=${appointmentId}`,
+      cancel_url: 'http://localhost:5173/my-appointments?canceled=true',
+    });
+
+    res.json({ success: true, id: session.id });
+
+  } catch (error) {
+    console.error('Stripe Payment Error:', error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+
+const verifyPayment = async(req,res)=>{
+    try {
+        const {appointmentID} = req.body
+        await appointmentModel.findByIdAndUpdate(appointmentID,{payment:true});
+        res.json({success:true,message:"Payment Successful"})
+
+    } catch (error) {
+        console.error( error);
+        res.json({ success: false, message: error.message });
+    }
+   
+};
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+export {registerUser,loginUser,getProfile,updateProfile,bookAppointment,listAppointment,cancelAppointment,stripePayment,verifyPayment}
