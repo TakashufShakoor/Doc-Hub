@@ -2,16 +2,18 @@ import React, { useContext } from 'react'
 import { assets } from '../assets/assets'
 import { AdminContext } from '../Context/AdminContext'
 import {useNavigate} from 'react-router-dom'
+import { DoctorContext } from '../Context/DoctorContext'
 
 const Navbar = () => {
 
   const {atoken,setatoken} = useContext(AdminContext)
+  const {dtoken,setdtoken} = useContext(DoctorContext)
   const navigate = useNavigate()
 
   const Logout = () => {
     navigate('/')
-    atoken && setatoken('')
-    atoken && localStorage.removeItem('atoken')
+    atoken && setatoken('') || dtoken && setdtoken('')
+    atoken && localStorage.removeItem('atoken') || dtoken && localStorage.removeItem('dtoken')
   }
 
 
