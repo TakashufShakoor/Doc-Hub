@@ -72,8 +72,10 @@ const AdminContextProvider = (props)=> {
      let confirmCancellation = confirm("❌ Are you sure you want to cancel this appointment?")
      if (confirmCancellation) {
         
-    try {
         const toastid = toast.loading('Cancelling Appointment')
+        
+    try {
+
         const {data} = await axios.post(backendUrl + '/api/admin/cancel-appointment',{appointmentId},{headers:{atoken}})
         
         if (data.success) {
@@ -114,10 +116,42 @@ const getDashData = async() =>{
         }
 }
 
+const deleteDoctor  = async(docId) =>{
+
+    let confirmDeletion = confirm("❌ Are you sure you want to remove this Doctor?")
+   
+
+    if(confirmDeletion){
+
+        const toastId = toast.loading("Removing Doctor...")
+
+         try {
+
+        const {data} = await axios.post(backendUrl + '/api/admin/delete-doctor',{docId},{headers:{atoken}})
+
+        if(data.success){
+            toast.dismiss(toastId)
+            toast.success(data.message)
+            getAllDoctors()
+        }
+        else{
+            toast.dismiss(toastId)
+            toast.error(data.message)
+        }
+    } 
+    
+    catch (error) {
+        toast.error(error.message)  
+    }
+}
+
+    }
+   
+   
 
 
     const  value = {
-        atoken,setatoken,backendUrl,doctors,getAllDoctors,changeAvailability,getAllAppointments,appointments,setappointments,cancelAppointment,getDashData,dashData
+        atoken,setatoken,backendUrl,doctors,getAllDoctors,changeAvailability,getAllAppointments,appointments,setappointments,cancelAppointment,getDashData,dashData,deleteDoctor
     }
 
     return(

@@ -208,7 +208,7 @@ function Appointment() {
           ))}
         </div>
 
-        <button onClick={bookAppointment} className='bg-primary text-white text-sm font-light px-14 py-3 rounded-full my-6'>Book an Appointment</button>
+        <button onClick={bookAppointment} className='bg-primary cursor-pointer hover:scale-105 transition-all duration-200 text-white text-sm font-light px-14 py-3 rounded-full my-6'>Book an Appointment</button>
 
       </div>
 

@@ -45,6 +45,7 @@ import Pediatricians from './Pediatricians.svg'
 import paid from './paid.png'
 
 
+
 export const assets = {
     appointment_img,
     header_img,

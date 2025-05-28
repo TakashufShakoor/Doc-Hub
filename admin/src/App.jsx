@@ -29,7 +29,7 @@ const App = () => {
         <ToastContainer />
         <Routes>
           {/* Admin Routes */}
-          <Route path="/" element = {<Dashboard/>}/>
+          <Route path="/admin-dashboard" element = {<Dashboard/>}/>
           <Route path="/all-appointments" element = {<AllAppointments/>}/>
           <Route path="/add-doctor" element = {<AddDoctor/>}/>
           <Route path="/doctors-list" element = {<DoctorsList/>}/>

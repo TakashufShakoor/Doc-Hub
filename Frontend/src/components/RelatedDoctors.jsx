@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import {AppContext} from '../context/AppContext.jsx'
+import { AppContext } from '../context/AppContext.jsx'
 
 const RelatedDoctors = ({ docId, speciality }) => {
 
-    const {doctors} =useContext(AppContext)
+    const { doctors } = useContext(AppContext)
 
 
 
@@ -28,9 +28,15 @@ const RelatedDoctors = ({ docId, speciality }) => {
                     <div onClick={() => { navigate(`/appointment/${item._id} `); scrollTo(0, 0) }} className='border border-[#C0E3FF] rounded-xl overflow-hidden cursor-pointer hover:translate-y-[-10px] transition-all duration-500' key={index}>
                         <img className='bg-[#C0E3FF] ' src={item.image} alt="" />
                         <div className='p-4'>
-                            <div className='flex items-center gap-2 text-sm text-center text-green-500'>
-                                <p className='w-2 h-2 bg-green-500 rounded-full'></p><p>Available</p>
-                            </div>
+                            {item.available ?
+                                <div className='flex items-center gap-2 text-sm text-center text-green-500'>
+                                    <p className='w-2 h-2 bg-green-500 rounded-full'></p><p>Available</p>
+                                </div>
+                                :
+                                <div className='flex items-center gap-2 text-sm text-center text-gray-400'>
+                                    <p className='w-2 h-2 bg-gray-400 rounded-full'></p><p>Unavailable</p>
+                                </div>
+                            }
                             <p className='text-gray-900 text-lg font-medium'>{item.name}</p>
                             <p className='text-gray-600 text-sm'>{item.speciality}</p>
                         </div>
