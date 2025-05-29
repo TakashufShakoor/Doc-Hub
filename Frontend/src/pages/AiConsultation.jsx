@@ -1,51 +1,131 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { assets } from "../assets/assets";
+import {toast} from 'react-toastify'
 
 const AiConsultation = () => {
   const [symptoms, setSymptoms] = useState("");
   const [diagnosis, setDiagnosis] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [displayedText, setDisplayedText] = useState(""); 
 
   const handleAnalyze = async () => {
-    if (!symptoms.trim()) return;
-    setLoading(true);
-    setDiagnosis(null);
 
- 
-    setTimeout(() => {
-      setDiagnosis("Based on your symptoms, possible conditions include flu, cold, or viral infection. Consult a doctor for an accurate diagnosis.");
-      setLoading(false);
-    }, 2000);
-  };
+    if (!symptoms.trim()) {
+      setDiagnosis("Please describe your symptoms.");
+      return;
+    }
+    const toastId = toast.loading("Analyzing, Please Wait...")
+    setLoading(true)
+    
 
-  return (
-    <div className="flex flex-col items-center justify-center min-h-[80vh] p-4 ">
-      <div className="w-full max-w-2xl p-6 border shadow-xl rounded-xl ">
-        <h2 className="text-2xl font-semibold text-gray-800 text-center mb-4">AI Health Consultation</h2>
-        <p className="text-sm text-gray-600 text-center mb-6">Enter your symptoms, and our AI will analyze them to provide possible diagnoses.</p>
-        <textarea
-          className="w-full p-3 border rounded-md"
-          placeholder="Describe your symptoms..."
-          rows={10}
-          value={symptoms}
-          onChange={(e) => setSymptoms(e.target.value)}
-        ></textarea>
-        <button
-          className="w-full bg-primary text-white py-2 mt-4 rounded hover:opacity-80 flex items-center justify-center transition-all"
-          onClick={handleAnalyze}
-          disabled={loading}
-        >
-          {loading ? <span className="animate-spin border-2 border-white border-t-transparent rounded-full w-5 h-5"></span> : "Analyze Symptoms"}
-        </button>
-        {diagnosis && (
-          <div className="mt-6 p-4 bg-green-100 border-l-4 border-green-500 rounded-md">
-            <h3 className="text-lg font-medium text-green-700">Possible Diagnosis</h3>
-            <p className="text-sm text-gray-700 mt-2">{diagnosis}</p>
+    try {
+
+      const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+        method: "POST",
+
+        headers: {
+          "Authorization": `Bearer ${import.meta.env.VITE_OPENROUTER_API_KEY}`,
+          "HTTP-Referer": "http://localhost:5173", // Optional. Site URL for rankings on openrouter.ai.
+          "X-Title": "DocHUB", // Optional. Site title for rankings on openrouter.ai.
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+          "model": "deepseek/deepseek-r1:free",
+          "messages": [
+            {
+              role: "system",
+              content:
+                "You are a professional and responsible AI health assistant. Your job is to help users understand their medical symptoms and provide informative health-related suggestions. You must not answer or respond to any non-medical or unrelated queries. Always maintain a helpful, respectful, and professional tone focused solely on health topics.",
+            },
+
+            {
+              "role": "user",
+              "content": `My Symptoms are ${symptoms}`
+            }
+          ]
+        })
+      })
+      const data = await response.json()
+      const Message = data.choices?.[0]?.message?.content || 'No Response Received'
+      setDiagnosis(Message);
+      toast.dismiss(toastId)
+      setLoading(false)
+      setSymptoms('')
+    }
+
+    catch(error){
+    toast.dismiss(toastId)
+    setLoading(false)
+    console.error("AxiosError:", error);
+    console.error("Response Data:", error?.response?.data);
+    setDiagnosis("❌ Error analyzing symptoms. Please try again later.");
+    
+    }
+  
+
+
+   }
+
+
+
+
+  useEffect(() => {
+  let index = -1;
+  const typingSpeed = 5; // milliseconds per character
+  setDisplayedText('')
+
+  if (diagnosis) {
+    const interval = setInterval(() => {
+      setDisplayedText(prev => prev + diagnosis[index]);
+      index++;
+      if (index >= diagnosis.length - 1) clearInterval(interval);
+    }, typingSpeed);
+    return () => clearInterval(interval);
+
+  }
+}, [diagnosis]);
+
+
+
+
+
+      return (
+        <div className="flex flex-col items-center justify-center min-h-[80vh] p-4 ">
+          <div className="w-full max-w-4xl  p-6 border shadow-xl rounded-xl ">
+            <h2 className="text-2xl font-semibold text-gray-800 text-center mb-4">AI Health Consultation</h2>
+            <p className="text-sm text-gray-600 text-center mb-6">Enter your symptoms, and our AI will analyze them to provide possible diagnoses.</p>
+            <textarea
+              className="w-full text-md p-3 border rounded-md"
+              placeholder="Describe your symptoms or ask anything related to health..."
+              rows={10}
+              value={symptoms}
+              onChange={(e) => setSymptoms(e.target.value)}
+            ></textarea>
+            <button
+              className="w-full bg-primary text-white py-2 mt-4 rounded hover:opacity-80 flex items-center justify-center transition-all"
+              onClick={handleAnalyze}
+              disabled={loading}
+            >
+              {loading ? <span className="animate-spin border-2 border-white border-t-transparent rounded-full w-5 h-5"></span> : "Analyze Symptoms"}
+            </button>
+
+            {diagnosis && (
+              <div className=" w-full mt-6 p-4 bg-green-100 border-l-4 border-green-500 rounded-md">
+                <h3 className="text-lg font-semibold text-green-700">Possible Conditions</h3><br />
+                <p className="text-xs font-medium text-red-500">⚠️ Note: This response is generated by an AI health assistant. It is intended for informational purposes only and should not be considered a substitute for professional medical advice, diagnosis, or treatment. Always consult with a qualified healthcare provider before making any health-related decisions.</p><br /><hr className="border-y border-green-700" /><br />
+                <p className="whitespace-pre-wrap text-gray-800 mt-4 p-4 rounded">
+                {displayedText}
+                </p>
+                
+
+                
+
+              </div>
+            )}
           </div>
-        )}
-      </div>
-    </div>
-  );
-};
+        </div>
+      );
+ };
 
-export default AiConsultation;
+    export default AiConsultation;
