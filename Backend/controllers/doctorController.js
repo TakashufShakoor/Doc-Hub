@@ -2,6 +2,7 @@ import doctorModel from "../models/doctorModel.js";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import appointmentModel from "../models/appointmentModel.js";
+import { geocodeAddress } from "../config/geoCode.js";
 
 const  changeAvailability = async (req,res)=>{
     try {
@@ -198,8 +199,15 @@ const updateDoctorProfile = async(req,res)=>{
     try {
 
         const{docId,fees,address,available} = req.body
+        const loc1 = await geocodeAddress(address);
 
-        await doctorModel.findByIdAndUpdate(docId,{fees,address,available})
+        await doctorModel.findByIdAndUpdate(docId,
+            {fees,address,available,
+                location: {
+                type: "Point",
+                coordinates:[loc1.lng,loc1.lat]
+                
+            },})
 
         res.json({success:true , message: 'Profile Updated'})
     } 

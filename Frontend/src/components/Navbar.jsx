@@ -37,10 +37,15 @@ const Navbar = () => {
             <li className='py-1'>HOME</li>
             <hr className='border-none outline-none h-0.5 bg-primary w-3/5 m-auto hidden' />
         </NavLink>
+        <NavLink to='/ai_consultation' onClick={()=>scrollTo(0,0)}>
+            <li className='py-1'>CONSULT AI</li>
+            <hr className='border-none outline-none h-0.5 bg-primary w-3/5 m-auto hidden' />
+        </NavLink>
         <NavLink to='/doctors' onClick={()=>scrollTo(0,0)}>
             <li className='py-1'>ALL DOCTORS</li>
             <hr className='border-none outline-none h-0.5 bg-primary w-3/5 m-auto hidden' />
         </NavLink>
+        
         <NavLink to='/about' onClick={()=>scrollTo(0,0)}>
             <li className='py-1'>ABOUT</li>
             <hr className='border-none outline-none h-0.5 bg-primary w-3/5 m-auto hidden' />
@@ -85,6 +90,7 @@ const Navbar = () => {
 
           <ul className='flex flex-col items-center gap-2 mt-5 px-5 text-lg font-medium'>
             <NavLink  onClick={()=>setshowmenu(false)} to='/'><p className='px-4 py-2 rounded inline-block' >HOME</p></NavLink>
+            <NavLink  onClick={()=>setshowmenu(false)} to='/ai_consultation'><p className='px-4 py-2 rounded inline-block'>CONSULT AI</p></NavLink>
             <NavLink  onClick={()=>setshowmenu(false)} to='/doctors'><p className='px-4 py-2 rounded inline-block'>ALL DOCTORS</p></NavLink>
             <NavLink  onClick={()=>setshowmenu(false)} to='/about'><p className='px-4 py-2 rounded inline-block'>ABOUT</p></NavLink>
             <NavLink  onClick={()=>setshowmenu(false)} to='/contact'><p className='px-4 py-2 rounded inline-block'>CONTACT</p></NavLink>

@@ -12,12 +12,22 @@ const doctorSchema = new mongoose.Schema(
     about: { type: String, requiured: true },
     available: { type: Boolean, default: true },
     fees: { type: Number, requiured: true },
-    address: { type: Object, requiured: true },
+    address: { type: String, requiured: true },
+    location:{
+      type : {type:String,required:true},
+      coordinates:[]
+    },      
     date: { type: Number, requiured: true },
     slots_booked: { type: Object, default: {} },
   },
   { minimize: false }
 );
+
+doctorSchema.index({location:"2dsphere"});
+
+
+
+
 
 const doctorModel =
   mongoose.models.doctor || mongoose.model("doctor", doctorSchema);

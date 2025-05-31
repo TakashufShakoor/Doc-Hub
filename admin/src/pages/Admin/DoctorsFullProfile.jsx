@@ -54,8 +54,7 @@ const DoctorsFullProfile = () => {
 
           <div>
             <p className='flex items-center gap-1 text-lg font-medium text-gray-900 mt-3'>Address </p>
-            <p className='text-md text-gray-500 max-w-[700px] mt-1' >{docInfo.address.line1}</p>
-            <p className='text-md text-gray-500 max-w-[700px] mt-1' >{docInfo.address.line2}</p>
+            <p className='text-md text-gray-500 max-w-[700px] mt-1' >{docInfo.address}</p>
           </div>
 
           <p className='text-gray-500 font-medium mt-4'>Appointment fee: <span className='text-gray-600'>{docInfo.fees}</span></p>

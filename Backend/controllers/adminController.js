@@ -5,6 +5,9 @@ import doctorModel from '../models/doctorModel.js'
 import jwt from 'jsonwebtoken'
 import appointmentModel from '../models/appointmentModel.js'
 import userModel from '../models/userModel.js'
+import { geocodeAddress } from '../config/geoCode.js'
+
+
 
 
 
@@ -12,9 +15,14 @@ import userModel from '../models/userModel.js'
 // API for adding Doctors
 
 const addDoctor = async (req, res) => {
+
     try {
         const { name, email, password, speciality, degree, experience, about, fees, address } = req.body
         const imageFile = req.file
+
+        
+        
+         
 
         // Checking for all data to add doctor
         if (!name || !email || !password || !speciality || !degree || !experience || !about || !fees || !address) {
@@ -38,6 +46,11 @@ const addDoctor = async (req, res) => {
         const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: 'image' })
         const imageUrl = imageUpload.secure_url
 
+
+        // GEO Code Address
+        const loc1 = await geocodeAddress(address);
+    
+
         const doctorData = {
             name,
             email,
@@ -48,11 +61,20 @@ const addDoctor = async (req, res) => {
             experience,
             about,
             fees,
-            address: JSON.parse(address),
-            date: Date.now()
+            address: address,
+            location: {
+                type: "Point",
+                coordinates:[loc1.lng,loc1.lat]
+                
+            },
+           
+            date: Date.now(),
+       
+    };
+            
 
 
-        }
+        
 
         const newDoctor = new doctorModel(doctorData)
         await newDoctor.save()

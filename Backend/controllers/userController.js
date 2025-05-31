@@ -6,6 +6,7 @@ import {v2 as cloudinary} from 'cloudinary'
 import doctorModel from '../models/doctorModel.js'
 import appointmentModel from '../models/appointmentModel.js'
 import stripe from '../config/stripe.js'
+import { geocodeAddress } from '../config/geoCode.js'
 
 
 
@@ -275,6 +276,48 @@ const cancelAppointment = async (req,res)=>{
     }
 }
 
+// API to search Nearby Doctors
+const nearbyDoctors = async(req,res)=>{
+
+    try {
+        const{latitude,longitude} = req.body
+
+        const doctors = await doctorModel.find({location: {$near: {$geometry: {type: "Point",coordinates: [longitude, latitude]},$maxDistance: 10000  }}});
+        res.json({success:true,doctors})
+    }
+    
+    catch (error) {
+         console.log(error);
+         res.json({ success: false, message: error.message })
+    }
+    
+
+}
+
+
+
+// API to search Nearby Doctors through searchbar
+const searchNearbyDoctors = async(req,res)=>{
+
+    try {
+        const{search} = req.body
+
+        const loc1 = await geocodeAddress(search);
+
+
+
+        const doctors = await doctorModel.find({location: {$near: {$geometry: {type: "Point",coordinates: [loc1.lng, loc1.lat]},$maxDistance: 10000  }}});
+        res.json({success:true,doctors})
+    }
+    
+    catch (error) {
+         console.log(error);
+         res.json({ success: false, message: error.message })
+    }
+    
+
+}
+
 //-----------------------------------------------Payment Gateway -------------------------------------------------------------------------
 
 
@@ -335,6 +378,8 @@ const verifyPayment = async(req,res)=>{
 
 
 
+
+
     
 
 
@@ -345,4 +390,4 @@ const verifyPayment = async(req,res)=>{
 
 
 
-export {registerUser,loginUser,getProfile,updateProfile,bookAppointment,listAppointment,cancelAppointment,stripePayment,verifyPayment}
+export {registerUser,loginUser,getProfile,updateProfile,bookAppointment,listAppointment,cancelAppointment,stripePayment,verifyPayment,nearbyDoctors,searchNearbyDoctors}

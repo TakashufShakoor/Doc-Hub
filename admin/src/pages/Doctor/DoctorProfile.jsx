@@ -16,7 +16,11 @@ const DoctorProfile = () => {
 
   const updateProfile = async()=>{
 
+    const toastId = toast.loading('Updating Profile ...')
+
     try {
+
+      
 
       const updateData = {
         address:doctorProfileData.address,
@@ -27,17 +31,20 @@ const DoctorProfile = () => {
        const {data} = await axios.post(backendUrl + '/api/doctor/update-profile',updateData,{headers:{dtoken}})
 
             if(data.success){
+                toast.dismiss(toastId)
                 toast.success(data.message)
                 setisEdit(false)
                 getProfileData()
             }
             else{
+                toast.dismiss(toastId)
                 toast.error(data.message)
             }  
 
     } catch (error) {
+      toast.dismiss(toastId)
       console.log(error);
-            toast.error(error.message)
+      toast.error(error.message)
     }
   }
 
@@ -76,16 +83,12 @@ const DoctorProfile = () => {
             <p className='text-sm text-gray-600 max-w-[700px] mt-1'>{doctorProfileData.about}</p>
           </div>
 
-          <p className='text-gray-600 font-medium mt-4'>Appointment Fee:  <span className='text-gray-800'>Rs.{isEdit ? <input className='bg-gray-100' onChange={(e)=>setdoctorProfileData(prev =>({...prev,fees : e.target.value}))} type="number" value={doctorProfileData.fees} name="" id="" /> : doctorProfileData.fees}</span></p>
+          <div className='flex flex-col gap-2 py-2'>
 
-          <div className='flex gap-2 py-2'>
+          <p className='text-neutral-800 font-medium mt-4'>Appointment Fee:  <span className='text-gray-600'>Rs.{isEdit ? <input className='bg-gray-100 px-2' onChange={(e)=>setdoctorProfileData(prev =>({...prev,fees : e.target.value}))} type="number" value={doctorProfileData.fees} name="" id="" /> : doctorProfileData.fees}</span></p>
+          <p className='text-neutral-800 text-sm font-medium mt-4'>Address:  <span className='text-gray-600'>{isEdit ? <input className='bg-gray-100 px-2' onChange={(e)=>setdoctorProfileData(prev =>({...prev,address : e.target.value}))} type="text" value={doctorProfileData.address} name="" id="" /> : doctorProfileData.address}</span></p>
 
-            <p>Address:</p>
-            <p className='text-sm'>
-              {isEdit ? <input className='bg-gray-100' onChange={(e)=>setdoctorProfileData(prev =>({...prev,address:{...prev.address,line1:e.target.value}}))} value={doctorProfileData.address.line1} type="text" name="" id="" /> : doctorProfileData.address.line1} <br /> 
-              {isEdit ? <input className='bg-gray-100' onChange={(e)=>setdoctorProfileData(prev =>({...prev,address:{...prev.address,line2:e.target.value}}))} value={doctorProfileData.address.line2} type="text" name="" id="" /> : doctorProfileData.address.line2}
-            </p>
-            
+                       
           </div>
 
           <div className='flex gap-1 pt-2'>

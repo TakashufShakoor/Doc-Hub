@@ -43,6 +43,7 @@ import Gynecologist from './Gynecologist.svg'
 import Neurologist from './Neurologist.svg'
 import Pediatricians from './Pediatricians.svg'
 import paid from './paid.png'
+import address from './address.png'
 
 
 
@@ -58,6 +59,7 @@ export const assets = {
     chats_icon,
     verified_icon,
     info_icon,
+    address,
     profile_pic,
     profile_pic2,
     arrow_icon,

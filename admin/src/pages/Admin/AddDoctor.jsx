@@ -14,8 +14,8 @@ const AddDoctor = () => {
   const [about,setabout] = useState('')
   const [speciality,setspeciality] = useState('General physician')
   const [degree,setdegree] = useState('')
-  const [address1,setaddresss1] = useState('')
-  const [address2,setaddresss2] = useState('')
+  const [address,setaddress] = useState('')
+
 
   const {backendUrl,atoken} = useContext(AdminContext)
 
@@ -44,7 +44,7 @@ const AddDoctor = () => {
       formData.append('about',about)
       formData.append('speciality',speciality)
       formData.append('degree',degree)
-      formData.append('address',JSON.stringify({line1:address1, line2:address2}))
+      formData.append('address',address)
 
       formData.forEach((key,value)=>{
         console.log(`${value} : ${key}  `)
@@ -66,8 +66,7 @@ const AddDoctor = () => {
         setfees('')
         setabout('')
         setdegree('')
-        setaddresss1('')
-        setaddresss2('')
+        setaddress('')
         
       }
 
@@ -181,8 +180,8 @@ const AddDoctor = () => {
 
             <div className='flex-1 flex flex-col gap-1'>
               <p>Address</p>
-              <input onChange={(e)=>setaddresss1(e.target.value)} value={address1} className='border border-[#dadada] rounded px-3 py-2' type="text" name="" placeholder='Address 1' id="" />
-              <input onChange={(e)=>setaddresss2(e.target.value)} value={address2} className='border border-[#dadada] rounded px-3 py-2' type="text" name="" placeholder='Address 2' id=""  />
+              <input onChange={(e)=>setaddress(e.target.value)} value={address} className='border border-[#dadada] rounded px-3 py-2' type="text" name="" placeholder='Address ' id="" />
+              
             </div>
 
           </div>

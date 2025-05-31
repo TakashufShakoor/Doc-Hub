@@ -33,12 +33,14 @@ const AiConsultation = () => {
         body: JSON.stringify({
           "model": "deepseek/deepseek-r1:free",
           "messages": [
+
             {
               role: "system",
               content:
-                "You are a professional and responsible AI health assistant. Your job is to help users understand their medical symptoms and provide informative health-related suggestions. You must not answer or respond to any non-medical or unrelated queries. Always maintain a helpful, respectful, and professional tone focused solely on health topics.",
+                "You are a Health Assistan .Respond to medical symptoms and queries only and if any other query is asked, respond with this I AM A MEDICAL ASSISTANT PLEASE ASK THE REALTED QUESTIONS.",
             },
 
+            
             {
               "role": "user",
               "content": `My Symptoms are ${symptoms}`
@@ -93,7 +95,7 @@ const AiConsultation = () => {
       return (
         <div className="flex flex-col items-center justify-center min-h-[80vh] p-4 ">
           <div className="w-full max-w-4xl  p-6 border shadow-xl rounded-xl ">
-            <h2 className="text-2xl font-semibold text-gray-800 text-center mb-4">AI Health Consultation</h2>
+            <h2 className="text-2xl font-semibold text-gray-800 text-center mb-4">AI Health Assistant</h2>
             <p className="text-sm text-gray-600 text-center mb-6">Enter your symptoms, and our AI will analyze them to provide possible diagnoses.</p>
             <textarea
               className="w-full text-md p-3 border rounded-md"
