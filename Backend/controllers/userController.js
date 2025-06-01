@@ -282,7 +282,7 @@ const nearbyDoctors = async(req,res)=>{
     try {
         const{latitude,longitude} = req.body
 
-        const doctors = await doctorModel.find({location: {$near: {$geometry: {type: "Point",coordinates: [longitude, latitude]},$maxDistance: 10000  }}});
+        const doctors = await doctorModel.find({location: {$near: {$geometry: {type: "Point",coordinates: [longitude, latitude]},$maxDistance: 20000  }}});
         res.json({success:true,doctors})
     }
     
@@ -306,7 +306,7 @@ const searchNearbyDoctors = async(req,res)=>{
 
 
 
-        const doctors = await doctorModel.find({location: {$near: {$geometry: {type: "Point",coordinates: [loc1.lng, loc1.lat]},$maxDistance: 10000  }}});
+        const doctors = await doctorModel.find({location: {$near: {$geometry: {type: "Point",coordinates: [loc1.lng, loc1.lat]},$maxDistance: 50000  }}});
         res.json({success:true,doctors})
     }
     

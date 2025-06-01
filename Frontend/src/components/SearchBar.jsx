@@ -12,6 +12,7 @@ const SearchBar = () => {
   const [search, setsearch] = useState('')
   const [suggestions, setSuggestions] = useState([]);
   const [doctors, setdoctors] = useState([])
+  const [error, seterror] = useState('')
   const [loading1,setloading1] = useState(false)
   const [loading2,setloading2] = useState(false)
   const navigate = useNavigate()
@@ -70,8 +71,10 @@ const SearchBar = () => {
 ];;
 
   const clearSearchDoctors = ()=>{
+    seterror('')
     setsearch('')
     setdoctors([])
+
     localStorage.removeItem('nearbyDoctors')
 
   }
@@ -101,6 +104,7 @@ const SearchBar = () => {
     }
 
     setloading2(true)
+    seterror('')
 
     try {
       const { data } = await axios.post(
@@ -113,6 +117,9 @@ const SearchBar = () => {
         setloading2(false)
         setdoctors(data.doctors)
         localStorage.setItem("nearbyDoctors", JSON.stringify(data.doctors));
+        if(!doctors.length > 0){
+          seterror('Doctors Not Found')
+        }
       }
        else {
         setloading2(false)
@@ -133,6 +140,7 @@ const SearchBar = () => {
     }
 
     setloading1(true)
+    seterror('')
     
 
     navigator.geolocation.getCurrentPosition(
@@ -149,6 +157,9 @@ const SearchBar = () => {
             setloading1(false)
             setdoctors(data.doctors)
             localStorage.setItem("nearbyDoctors", JSON.stringify(data.doctors));
+            if(!doctors.length > 0){
+                  seterror('Doctors Not Found')
+             }
           }
 
           else{
@@ -181,14 +192,16 @@ const SearchBar = () => {
         <input
           onChange={handleInputChange}
           value={search}
+          required
           className='text-base w-2/3 md:w-1/2 px-5 h-12 rounded-full border border-gray-300 outline-none text-gray-800'
           type="search"
           placeholder='Search Nearby Doctors e.g City'
         />
         
         
-        {loading2 ? <span className="animate-spin border-2 border-primary border-t-transparent rounded-full w-12 h-12"></span> : <button onClick={handleSearchBar} className='w-12 h-12 text-gray-800 text-5xl'><CiSearch className='hover:text-primary' /></button>}
+        {loading2 ? <span className="animate-spin border-2 border-primary border-t-transparent rounded-full w-12 h-12"></span> : <button  onClick={handleSearchBar} className='w-12 h-12 text-gray-800 text-5xl'><CiSearch className='hover:text-primary' /></button>}
         {loading1 ? <span className="animate-spin border-2 border-primary border-t-transparent rounded-full w-12 h-12"></span> : <button onClick={handleSearchButton} className='w-12 h-12 text-white text-2xl bg-primary rounded-full px-3 hover:bg-primary/60'><FaLocationDot /></button>}
+        
         
 
         {/* Suggestions dropdown */}
@@ -207,12 +220,16 @@ const SearchBar = () => {
         )}
       </div>
 
-      {doctors.length > 0 && (
+      {doctors.length > 0 ? 
         <div className='flex flex-col sm:flex-row w-full items-center justify-center  mt-10'>
         <p className='sm:w-1/3  text-center text-md'>Here are the doctors available near your current location:</p>
         <button onClick={clearSearchDoctors} className='bg-primary text-white px-2 py-1 text-xs rounded-full font-light block'>Clear</button>
         </div>
-      )}
+      :
+      <div className='flex flex-col sm:flex-row w-full items-center justify-center  mt-10'>
+        <p className='sm:w-1/3 text-red-500  text-center text-md'>{error}</p>
+      </div>
+      }
       
       
       <div className='w-full grid md:grid-cols-auto grid-cols-2 gap-4 pt-5 gap-y-6 px-3 sm:px-0'>
