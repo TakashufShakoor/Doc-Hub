@@ -12,13 +12,13 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import AiConsultation from './pages/AiConsultation'
  import { ToastContainer, toast } from 'react-toastify';
-import { AppContext } from './context/AppContext'
+
+
   
 
 
 const App = () => {
 
-  const {token} = useContext(AppContext)
 
 
   return (
@@ -39,6 +39,7 @@ const App = () => {
         <Route path='/my-appointments' element={<MyAppointments/>}/>
         <Route path='/appointment/:docId' element={<Appointment/>}/>
         <Route path='/ai_consultation' element={<AiConsultation/>}/>
+        
 
       </Routes>
 

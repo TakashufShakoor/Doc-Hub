@@ -13,11 +13,13 @@ import earning_icon from './earning_icon.png'
 import patients_icon from './patients_icon.svg'
 import logo from './logo.png'
 import minus_button from './minus-button.png'
+import video_icon from './video.png'
 
 export const assets = {
     add_icon,
     minus_button,
     admin_logo,
+    video_icon,
     logo,
     appointment_icon,
     cancel_icon,

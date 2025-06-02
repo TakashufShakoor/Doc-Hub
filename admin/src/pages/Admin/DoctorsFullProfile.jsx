@@ -26,7 +26,7 @@ const DoctorsFullProfile = () => {
 
 
     
-    return docInfo && (
+    return atoken && docInfo && (
 
     <div className='m-10 w-full'>
       {/*------------------Doctor Details-----------------------*/}

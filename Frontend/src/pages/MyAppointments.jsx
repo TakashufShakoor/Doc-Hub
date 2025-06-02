@@ -6,6 +6,8 @@ import { toast } from 'react-toastify'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {loadStripe} from '@stripe/stripe-js';
+import { assets } from '../assets/assets'
+
 
 
 const MyAppointments = () => {
@@ -173,26 +175,34 @@ const MyAppointments = () => {
               <img className=' w-32 bg-[#c0e3ff]' src={item.docData.image} alt="" />
             </div>
 
+            
+
             <div className='flex-1 text-sm text-zinc-600'>
               <p className='text-neutral-800 font-semibold'>{item.docData.name}</p>
               <p>{item.docData.speciality}</p>
               <p className='text-zinnc-700 font-medium mt-1'>Address:</p>
-              <p className='text-xs'>{item.docData.address.line1}</p>
-              <p className='text-xs'>{item.docData.address.line2}</p>
+              <p className='text-xs'>{item.docData.address}</p>
               <p className='text-sm mt-1'><span className='text-sm text-neutral-700 font-medium '>Date & Time:</span> {slotDateFormat(item.slotDate)} | {item.slotTime}</p>
               <p className='text-sm mt-1'><span className='text-sm text-neutral-700 font-medium '>Fees:</span> {`Rs. ${item.amount}`}</p>
+              
             </div>
+
+            
+            
+
             
             <div></div>
             
             {!item.isCompleted ?
 
             <div className='flex flex-col gap-2 justify-end'>
-              
+             {!item.cancelled && !item.isCompleted && <button onClick={() => window.location.href = `http://localhost:5175/video-room/${item._id}`} className='text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded hover:bg-primary hover:text-white transition-all duration-300'>Video Chat</button>} 
              {!item.cancelled && item.payment && <button className='sm:min-w-48 py-2 border font-semibold border-green-500 rounded text-green-500  '>✔ Paid</button>}
              {!item.cancelled && !item.payment && <button onClick={()=>makePayment(item._id)}  className='text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded hover:bg-green-500 hover:text-white transition-all duration-300'>Pay Online</button> }
              {!item.cancelled && <button onClick={()=>cancelAppointment(item._id)} className='text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded hover:bg-red-600 hover:text-white transition-all duration-300'>Cancel appointment </button>} 
              {item.cancelled && <button className='sm:min-w-48 py-2 border border-red-500 rounded text-red-500'>Cancelled ✘</button>}
+             
+             
     
             </div>
 
@@ -202,14 +212,19 @@ const MyAppointments = () => {
               <button className='sm:min-w-48 py-2 border border-green-500 rounded text-green-500'>Completed ✔</button>
             </div>
 
+
             }
 
 
           </div>
 
+          
+
         ))}
       </div>
+      
     </div>
+    
   )
 }
 

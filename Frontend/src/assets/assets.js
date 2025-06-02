@@ -44,12 +44,14 @@ import Neurologist from './Neurologist.svg'
 import Pediatricians from './Pediatricians.svg'
 import paid from './paid.png'
 import address from './address.png'
+import video_icon from './video.png'
 
 
 
 export const assets = {
     appointment_img,
     header_img,
+    video_icon,
     header_img2,
     group_profiles,
     logo,

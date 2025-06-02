@@ -8,6 +8,7 @@ import doctorRouter from "./routes/doctorRoute.js"
 import userRouter from "./routes/userRoute.js"
 
 
+
 // App Config
 const app = express()
 const port = process.env.PORT || 4000
@@ -21,6 +22,7 @@ app.use(cors())
 
 
 // API Endpoints
+
 app.use('/api/admin', adminRouter)
 app.use('/api/doctor',doctorRouter)
 app.use('/api/user',userRouter)
