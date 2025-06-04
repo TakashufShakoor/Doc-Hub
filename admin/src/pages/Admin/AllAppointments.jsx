@@ -25,7 +25,7 @@ const AllAppointments = () => {
       <p className='mb-3 text-lg font-medium'>All Appointments</p>
 
       <div className='bg-white border border-gray-200 shadow-md rounded text-sm max-h-[80vh] min-h-[60vh] overflow-y-scroll'>
-        <div className='hidden  sm:grid sm:grid-cols-[0.5fr_3fr_1fr_3fr_3fr_1fr_1fr_1fr] grid-flow-col py-3 px-6 border-b border-gray-300'>
+        <div className='hidden  sm:grid sm:grid-cols-[0.5fr_4fr_1fr_4fr_4fr_2fr_2fr_2fr_2fr] grid-flow-col py-3 px-6 border-b border-gray-300'>
           
           <p>#</p>
           <p>Patient</p>
@@ -33,6 +33,7 @@ const AllAppointments = () => {
           <p>Date & Time</p>
           <p>Doctor</p>
           <p>Fees</p>
+          <p>Type</p>
           <p>Payment</p>
           <p>Actions</p>
           
@@ -40,7 +41,7 @@ const AllAppointments = () => {
         </div>
 
         {appointments.map((item,index)=>(
-          <div className='flex flex-wrap justify-between max-sm:gap-2 sm:grid sm:grid-cols-[0.5fr_3fr_1fr_3fr_3fr_1fr_1fr_1fr] items-center text-gray-500 py-3 px-6 border-b border-gray-300 hover:bg-gray-50' key={index}>
+          <div className='flex flex-wrap justify-between max-sm:gap-2 sm:grid sm:grid-cols-[0.5fr_4fr_1fr_4fr_4fr_2fr_2fr_2fr_2fr] items-center text-gray-500 py-3 px-6 border-b border-gray-300 hover:bg-gray-50' key={index}>
 
             <p className='max-sm:hidden'>{index + 1}</p>
             <div className='flex items-center gap-2'>
@@ -52,11 +53,14 @@ const AllAppointments = () => {
               <img className='w-8 rounded-full bg-gray-200' src={item.docData.image} alt="" /><p>{item.docData.name}</p>
             </div>
             <p>Rs.{item.docData.fees}</p>
+            <div>
+              <p className='text-xs inline border border-gray-300  px-2 rounded-full'>{item.appointmentType}</p>
+            </div>
             
             {item.payment
-             ? <p className=' text-green-500 text-xs font-semibold '>Online</p>
+             ? <div> <p className=' text-green-500 text-xs font-semibold inline border border-gray-300  px-2 rounded-full '>Paid</p></div>
              :
-               <p className='text-red-400 text-xs font-medium'> Cash</p>
+               <div><p className='text-red-400 text-xs font-medium inline border border-gray-300  px-2 rounded-full'> Unpaid</p></div>
             }
             
 

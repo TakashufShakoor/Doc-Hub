@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 
 const DoctorsFullProfile = () => {
 
-    const{doctors,getAllDoctors } = useContext(AdminContext)
+    const{doctors,getAllDoctors,atoken } = useContext(AdminContext)
     const { docId } = useParams()
     const[docInfo,setdocInfo] = useState(null)
 
@@ -12,15 +12,15 @@ const DoctorsFullProfile = () => {
     const fetchDocInfo = ()=>{
         const docData = doctors.find((doc)=>doc._id === docId)
         setdocInfo(docData)
+      
     }
 
 
 
 
     useEffect(()=>{
-        getAllDoctors()
         fetchDocInfo()
-    },[doctors,docId])
+    },[])
 
 
 

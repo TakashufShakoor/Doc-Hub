@@ -7,6 +7,8 @@ import axios from 'axios'
 import { AppContext } from '../context/AppContext';
 import { useNavigate } from 'react-router-dom';
 
+
+
 const SearchBar = () => {
   const { backendUrl, token } = useContext(AppContext)
   const [search, setsearch] = useState('')
@@ -185,8 +187,9 @@ const SearchBar = () => {
   }, [token]);
 
   return (
-    <div className='flex flex-col items-center gap-4 my-16 text-gray-800'>
+    <div className='flex flex-col items-center gap-4 mt-20 mb-8 text-gray-800'>
       <h1 className='text-3xl font-medium'>Search Nearby Doctors</h1>
+
 
       <div className='relative flex justify-center w-full md:w-2/3 gap-2 mt-10'>
         <input
@@ -232,7 +235,7 @@ const SearchBar = () => {
       }
       
       
-      <div className='w-full grid md:grid-cols-auto grid-cols-2 gap-4 pt-5 gap-y-6 px-3 sm:px-0'>
+      <div className='w-full grid md:grid-cols-auto grid-cols-2 gap-4 pt-5 pb-10 gap-y-6 px-3 sm:px-0'>
         
         {doctors.map((item, index) => (
           <div

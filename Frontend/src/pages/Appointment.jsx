@@ -22,6 +22,7 @@ function Appointment() {
   const [docSlots,setdocSlots]=useState([])
   const [slotIndex,setslotIndex]=useState(0)
   const [slotTime,setslotTime]=useState('')
+  const [appointmentType,setappointmentType]=useState('')
 
 
   const fetchDocInfo = async () => {
@@ -103,6 +104,10 @@ function Appointment() {
       toast.warn('Login To Book Appointment')
       return navigate('/login'); scrollTo(0,0)
     }
+    if( !slotTime || !appointmentType){
+      toast.warn('Please select the Fields')
+    return
+    }
 
     try {
       const toastId1 = toast.loading("Booking Appointment, Please wait...");
@@ -114,7 +119,7 @@ function Appointment() {
 
       const slotDate = day + '_' + month + '_' + year
       
-      const {data} = await axios.post(backendUrl + '/api/user/book-appointment',{docId,slotDate,slotTime},{headers:{token}})
+      const {data} = await axios.post(backendUrl + '/api/user/book-appointment',{docId,slotDate,slotTime,appointmentType},{headers:{token}})
       if (data.success) {
         toast.dismiss(toastId1)
         toast.success(data.message)
@@ -211,6 +216,16 @@ function Appointment() {
               {item.time.toLowerCase()}
             </p>
           ))}
+        </div>
+
+        <div className=' flex flex-col items-start w-full gap-3 mt-4 font-medium text-gray-700'>
+          <p>Appointment Type</p>
+          <select className='p-2 rounded-md border border-gray-300 outline-none ' onChange={(e)=>setappointmentType(e.target.value)} value={appointmentType} name="" id="">
+            <option value="">Select</option>
+            <option value="In-Person">In-Person</option>
+            <option value="Virtual">Virtual</option>
+          </select>
+          
         </div>
 
         <button onClick={bookAppointment} className='bg-primary cursor-pointer hover:scale-105 transition-all duration-200 text-white text-sm font-light px-14 py-3 rounded-full my-6'>Book an Appointment</button>

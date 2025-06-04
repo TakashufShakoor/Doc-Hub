@@ -7,6 +7,8 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {loadStripe} from '@stripe/stripe-js';
 import { assets } from '../assets/assets'
+import { FaVideo } from "react-icons/fa";
+
 
 
 
@@ -170,9 +172,9 @@ const MyAppointments = () => {
       <div>
         {appointments.map((item,index)=>(
 
-          <div className='grid grid-cols-[1fr_2fr] gap-4 sm:flex sm:gap-6 py-2 border-b ' key={index}>
+          <div className='grid grid-cols-[1fr_2fr] gap-4 sm:flex  sm:gap-6 py-2 border-b items-center ' key={index}>
             <div onClick={() => {navigate(`/appointment/${item.docId}`); scrollTo(0,0)}} className='cursor-pointer   '>
-              <img className=' w-32 bg-[#c0e3ff]' src={item.docData.image} alt="" />
+              <img className=' w-40 bg-[#c0e3ff]' src={item.docData.image} alt="" />
             </div>
 
             
@@ -184,6 +186,7 @@ const MyAppointments = () => {
               <p className='text-xs'>{item.docData.address}</p>
               <p className='text-sm mt-1'><span className='text-sm text-neutral-700 font-medium '>Date & Time:</span> {slotDateFormat(item.slotDate)} | {item.slotTime}</p>
               <p className='text-sm mt-1'><span className='text-sm text-neutral-700 font-medium '>Fees:</span> {`Rs. ${item.amount}`}</p>
+              <p className='text-sm mt-1'><span className='text-sm text-neutral-700 font-medium '>Appointment Type:</span> {item.appointmentType}</p>
               
             </div>
 
@@ -191,13 +194,15 @@ const MyAppointments = () => {
             
 
             
-            <div></div>
+            <div>
+              {!item.cancelled && !item.isCompleted && !item.payment && item.appointmentType==='Virtual' && <p className='text-xs text-red-500'>⚠️Note: Your virtual appointment has been booked. To confirm, please complete the online payment.</p>}
+            </div>
             
             {!item.isCompleted ?
 
-            <div className='flex flex-col gap-2 justify-end'>
-             {!item.cancelled && !item.isCompleted && <button onClick={() => window.location.href = `http://localhost:5175/video-room/${item._id}`} className='text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded hover:bg-primary hover:text-white transition-all duration-300'>Video Chat</button>} 
-             {!item.cancelled && item.payment && <button className='sm:min-w-48 py-2 border font-semibold border-green-500 rounded text-green-500  '>✔ Paid</button>}
+            <div className='flex flex-col gap-2  justify-end'>
+             {!item.cancelled && !item.isCompleted && item.appointmentType === 'Virtual' &&  <button disabled={!item.payment} onClick={() => window.location.href = `http://localhost:5175/video-room/${item._id}`} className={`text-sm text-stone-500 text-center flex justify-center gap-2 sm:min-w-48 py-2 border items-center rounded  transition-all duration-300 ${item.payment ? 'bg-primary  hover:bg-primary/80' : 'bg-[#e0e0e0]'} `}><img className='w-6 '  src={assets.video_icon} alt="" /></button>} 
+             {!item.cancelled && item.payment && <button className='sm:min-w-48 py-2 border  border-green-500 rounded text-green-500  '>✔ Paid</button>}
              {!item.cancelled && !item.payment && <button onClick={()=>makePayment(item._id)}  className='text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded hover:bg-green-500 hover:text-white transition-all duration-300'>Pay Online</button> }
              {!item.cancelled && <button onClick={()=>cancelAppointment(item._id)} className='text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded hover:bg-red-600 hover:text-white transition-all duration-300'>Cancel appointment </button>} 
              {item.cancelled && <button className='sm:min-w-48 py-2 border border-red-500 rounded text-red-500'>Cancelled ✘</button>}
