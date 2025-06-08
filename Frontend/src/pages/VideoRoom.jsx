@@ -16,7 +16,7 @@ const VideoRoom = () => {
         serverSecret,
         appointmentId,
         Date.now().toString(),
-        "Your Name"
+        " "
       )
       const zp = ZegoUIKitPrebuilt.create(kitToken);
 
@@ -48,9 +48,21 @@ const VideoRoom = () => {
 
 
   return (
-    <div ref={videoContainerRef}  style={{ width: '100vw', height: '100vh' }}>
-      
-    </div>
+     <div
+      ref={videoContainerRef}
+      style={{
+        width: '100%',
+        height: '100dvh', // dynamic viewport height, works best on mobile
+        padding: 'env(safe-area-inset-top, 0) env(safe-area-inset-right, 0) env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0)',
+        margin: 0,
+        boxSizing: 'border-box',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        
+      }}
+
+    ></div>
   )
 }
 

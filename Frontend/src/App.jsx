@@ -11,7 +11,8 @@ import Appointment from './pages/Appointment'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import AiConsultation from './pages/AiConsultation'
- import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
+import VideoRoom from './pages/VideoRoom'
 
 
   
@@ -39,6 +40,7 @@ const App = () => {
         <Route path='/my-appointments' element={<MyAppointments/>}/>
         <Route path='/appointment/:docId' element={<Appointment/>}/>
         <Route path='/ai_consultation' element={<AiConsultation/>}/>
+        <Route path='/video_room/:appointmentId' element={<VideoRoom/>}/>
         
 
       </Routes>
