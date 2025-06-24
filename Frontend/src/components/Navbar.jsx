@@ -59,7 +59,7 @@ const Navbar = () => {
       
       
       <div className='flex items-center gap-4'>
-        <button onClick={()=>navigate('/')} className='bg-primary text-white px-8 py-3 rounded-full font-light hidden lg:block'>Join as Doctor</button>
+        <button onClick={()=>navigate('/join_as_doctor')} className='bg-primary text-white px-8 py-3 rounded-full font-light hidden lg:block'>Join as Doctor</button>
         {
 
             token ? 
@@ -80,6 +80,10 @@ const Navbar = () => {
         }
         <img onClick={()=>setshowmenu(true)} className='w-6 lg:hidden' src={assets.menu_icon} alt="" />
 
+
+
+
+
         {/*-----------Mobile Menu-----------*/}
         <div className={`${showmenu ? 'fixed w-full' : 'h-0 w-0'} lg:hidden right-0 top-0 bottom-0 z-20 overflow-hidden bg-white transition-all`}>
 
@@ -94,11 +98,12 @@ const Navbar = () => {
             <NavLink  onClick={()=>setshowmenu(false)} to='/doctors'><p className='px-4 py-2 rounded inline-block'>ALL DOCTORS</p></NavLink>
             <NavLink  onClick={()=>setshowmenu(false)} to='/about'><p className='px-4 py-2 rounded inline-block'>ABOUT</p></NavLink>
             <NavLink  onClick={()=>setshowmenu(false)} to='/contact'><p className='px-4 py-2 rounded inline-block'>CONTACT</p></NavLink>
+            <hr className='bg-gray-400 w-full mt-80' />
+            <div className='flex gap-5 font-normal '>
+            {!token && <NavLink   onClick={()=>setshowmenu(false)} to='/login'><p className='px-4 py-2 rounded inline-block'>Join as Patient</p></NavLink>}
+            <NavLink  onClick={()=>setshowmenu(false)} to='/join_as_doctor'><p className='px-4 py-2 rounded inline-block'>Join as Doctor</p></NavLink>
+            </div>
           
-           {/* <div className='bg-primary text-white' >
-            <NavLink onClick={()=>setshowmenu(false)}  to='/login'><p className='px-4 py-2 rounded inline-block'>Join as Patient</p></NavLink>
-            <NavLink onClick={()=>setshowmenu(false)}  to=''><p className='px-4 py-2 rounded inline-block'>Join as Doctor</p></NavLink>
-           </div> */}
           </ul>
 
         </div>

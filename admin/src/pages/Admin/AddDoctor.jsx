@@ -89,6 +89,7 @@ const AddDoctor = () => {
 
 
   return atoken && (
+    
     <form onSubmit={OnSubmithandler} className='m-5 w-full'>
       <p className='mb-3 text-lg font-medium'>Add Doctor</p>
 

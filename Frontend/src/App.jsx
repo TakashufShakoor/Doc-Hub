@@ -13,6 +13,7 @@ import Footer from './components/Footer'
 import AiConsultation from './pages/AiConsultation'
 import { ToastContainer, toast } from 'react-toastify';
 import VideoRoom from './pages/VideoRoom'
+import JoinAsDoctor from './pages/JoinAsDoctor'
 
 
   
@@ -34,6 +35,7 @@ const App = () => {
         <Route path='/doctors' element={<Doctors/>}/>
         <Route path='/doctors/:speciality' element={<Doctors/>}/>
         <Route path='/login' element={<Login/>}/>
+        <Route path='/join_as_doctor' element={<JoinAsDoctor/>}/>
         <Route path='/about' element={<About/>}/>
         <Route path='/contact' element={<Contact/>}/>
         <Route path='/my-profile' element={<MyProfile/>}/>

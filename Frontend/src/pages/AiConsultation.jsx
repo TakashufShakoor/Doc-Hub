@@ -37,7 +37,7 @@ const AiConsultation = () => {
             {
               role: "system",
               content:
-                "You are a Health Assistan .Respond to medical symptoms and queries only and if any other query is asked, respond with this I AM A MEDICAL ASSISTANT PLEASE ASK THE REALTED QUESTIONS.",
+                "You are a Health Assistant .Respond to medical symptoms and queries only and if any other query is asked, respond with this I AM A MEDICAL ASSISTANT PLEASE ASK THE REALTED QUESTIONS.",
             },
 
             

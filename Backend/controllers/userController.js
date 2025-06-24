@@ -7,6 +7,7 @@ import doctorModel from '../models/doctorModel.js'
 import appointmentModel from '../models/appointmentModel.js'
 import stripe from '../config/stripe.js'
 import { geocodeAddress } from '../config/geoCode.js'
+import transporter from '../config/mailer.js'
 
 
 
@@ -283,7 +284,7 @@ const nearbyDoctors = async(req,res)=>{
     try {
         const{latitude,longitude} = req.body
 
-        const doctors = await doctorModel.find({location: {$near: {$geometry: {type: "Point",coordinates: [longitude, latitude]},$maxDistance: 20000  }}});
+        const doctors = await doctorModel.find({location: {$near: {$geometry: {type: "Point",coordinates: [longitude, latitude]},$maxDistance: 15000  }}});
         res.json({success:true,doctors})
     }
     
@@ -376,19 +377,63 @@ const verifyPayment = async(req,res)=>{
    
 };
 
+//----------------------------------------Join Doctor------------------//
+
+const joinDoctor = async(req,res)=> {
+
+        
+        const {name,email,contact,experience,fees,about,speciality,degree,address} = req.body
+        
+
+        
+        // Checking for all data to add doctor
+        if (!name || !email || !contact || !speciality || !degree || !experience || !about || !fees || !address) {
+            return res.json({ success: false, message: 'Missing Details' })
+        }
+        
+        // Checking the email format 
+        if (!validator.isEmail(email)) {
+            return  res.json({ success: false, message: 'Please enter a valid email' })
+        }
+
+        const mailOptions = {
+            from: email,
+            to: "70126984@student.uol.edu.pk",
+            subject: "New Doctor Registration",
+            html: `
+            <h2>Doctor Form Submission</h2>
+            <p><b>Name:</b> ${name}</p>
+            <p><b>Email:</b> ${email}</p>
+            <p><b>Contact No:</b> ${contact}</p>
+            <p><b>Speciality:</b> ${speciality}</p>
+            <p><b>Experience:</b> ${experience}</p>
+            <p><b>Degree:</b> ${degree}</p>
+            <p><b>Address:</b> ${address}</p>
+            <p><b>Fees:</b> ${fees}</p>
+            <p><b>About:</b> ${about}</p>
+          `,
+        };
+
+        try {
+
+            await transporter.sendMail(mailOptions);
+            res.json({success:true , message:'Submission Successful'})
+
+        } 
+        catch (error) {
+
+            console.error("Email error:", error);
+            res.json({success:false, message: error.message})
+
+        }
+
+        
 
 
 
 
-
-    
-
+}
 
 
 
-
-
-
-
-
-export {registerUser,loginUser,getProfile,updateProfile,bookAppointment,listAppointment,cancelAppointment,stripePayment,verifyPayment,nearbyDoctors,searchNearbyDoctors}
+export {registerUser,loginUser,getProfile,updateProfile,bookAppointment,listAppointment,cancelAppointment,stripePayment,verifyPayment,nearbyDoctors,searchNearbyDoctors,joinDoctor}
