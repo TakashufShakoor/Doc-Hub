@@ -351,8 +351,13 @@ const stripePayment = async (req, res) => {
       payment_method_types: ['card'],
       line_items: lineItems,
       mode: 'payment',
-      success_url: `http://localhost:5173/my-appointments?appointment_Id=${appointmentId}`,
-      cancel_url: 'http://localhost:5173/my-appointments?canceled=true',
+      success_url: `https://doc-hub-production-260f.up.railway.app/my-appointments?appointment_Id=${appointmentId}`,
+      cancel_url: 'https://doc-hub-production-260f.up.railway.app/my-appointments?canceled=true',
+
+    // success_url: `http://localhost:5173/my-appointments?appointment_Id=${appointmentId}`,
+    // cancel_url: 'http://localhost:5173/my-appointments?canceled=true',
+
+
     });
 
     res.json({ success: true, id: session.id });
