@@ -98,7 +98,7 @@ const Navbar = () => {
             <NavLink  onClick={()=>setshowmenu(false)} to='/doctors'><p className='px-4 py-2 rounded inline-block'>ALL DOCTORS</p></NavLink>
             <NavLink  onClick={()=>setshowmenu(false)} to='/about'><p className='px-4 py-2 rounded inline-block'>ABOUT</p></NavLink>
             <NavLink  onClick={()=>setshowmenu(false)} to='/contact'><p className='px-4 py-2 rounded inline-block'>CONTACT</p></NavLink>
-            <hr className='bg-gray-400 w-full mt-80' />
+            <hr className='bg-gray-400 w-full mt-60' />
             <div className='flex gap-5 font-normal '>
             {!token && <NavLink   onClick={()=>setshowmenu(false)} to='/login'><p className='px-4 py-2 rounded inline-block'>Join as Patient</p></NavLink>}
             <NavLink  onClick={()=>setshowmenu(false)} to='/join_as_doctor'><p className='px-4 py-2 rounded inline-block'>Join as Doctor</p></NavLink>
