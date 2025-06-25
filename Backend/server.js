@@ -22,7 +22,7 @@ app.use(express.json())
 //app.use(cors())
 
 app.use(cors({
-  origin: 'https://doc-hub-sigma-umber.vercel.app/',
+  origin: 'https://doc-hub-sigma-umber.vercel.app',
   credentials: true
 }));
 
