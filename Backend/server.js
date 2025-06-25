@@ -21,10 +21,26 @@ app.use(express.json())
 
 //app.use(cors())
 
+const allowedOrigins = [
+  'https://doc-hub-sigma-umber.vercel.app',
+  'https://doc-hub-robq.vercel.app'
+];
+
+// ✅ Dynamically allow multiple origins
 app.use(cors({
-  origin: 'https://doc-hub-sigma-umber.vercel.app',
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
 }));
+
+
 
 
 // API Endpoints
