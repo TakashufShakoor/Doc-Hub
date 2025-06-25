@@ -73,7 +73,7 @@ const DoctorAppointments = () => {
               {
                 !item.isCompleted && !item.cancelled &&
               <div className={`w-9 h-9 rounded-full  pl-1.5 pt-1.5 border border-primary  ${item.appointmentType === 'In-Person' ? 'hidden' : ''}`}>
-                  <img onClick={() => window.open(`http://localhost:5173/video_room/${item._id}`, '_blank')} className='w-6 cursor-pointer' src={assets.video_icon} alt="" />
+                  <img onClick={() => window.open(`https://doc-hub-p1k4.vercel.app/video_room/${item._id}`, '_blank')} className='w-6 cursor-pointer' src={assets.video_icon} alt="" />
               </div>
               }
               
