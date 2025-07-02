@@ -11,7 +11,7 @@ const AiConsultation = () => {
   const handleAnalyze = async () => {
 
     if(!token){
-      toast.warn('Log In To Consult AI')
+      toast.warning('Log In To Consult AI')
       return;
     }
 
