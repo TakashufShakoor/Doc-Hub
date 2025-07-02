@@ -1,12 +1,15 @@
 import { useState,useEffect } from "react";
 import { assets } from "../assets/assets";
 import {toast} from 'react-toastify'
+import { AppContext } from '../context/AppContext';
 
 const AiConsultation = () => {
   const [symptoms, setSymptoms] = useState("");
   const [diagnosis, setDiagnosis] = useState(null);
   const [loading, setLoading] = useState(false);
   const [displayedText, setDisplayedText] = useState(""); 
+
+  const { token } = useContext(AppContext)
 
   const handleAnalyze = async () => {
 
