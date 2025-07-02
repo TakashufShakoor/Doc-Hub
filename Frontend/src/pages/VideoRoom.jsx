@@ -9,8 +9,8 @@ const VideoRoom = () => {
 
     const myMeeting = ()=>{
         
-      const appID = 81630781 ;
-      const serverSecret = "3153e643ad8e3c9a5eecf23481a0535e";
+      const appID = 568746709 ;
+      const serverSecret = "bdeb68dc5c9d03ce60ee79e6f6de0aff";
       const kitToken =  ZegoUIKitPrebuilt.generateKitTokenForTest(
         appID,
         serverSecret,
