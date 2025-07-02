@@ -10,6 +10,11 @@ const AiConsultation = () => {
 
   const handleAnalyze = async () => {
 
+    if(!token){
+      toast.warn('Log In To Consult AI')
+      return;
+    }
+
     if (!symptoms.trim()) {
       setDiagnosis("Please describe your symptoms.");
       return;
